@@ -1,0 +1,9 @@
+<div class="products-grid">
+  <div *ngFor="let product of products" class="product-card">
+    <img [src]="product.image" alt="Product image" class="product-image" />
+    <h3>{{ product.title }}</h3>
+    <p>{{ product.price | currency }}</p>
+  </div>
+</div>
+
+<div *ngIf="isLoading">Loading more products...</div>

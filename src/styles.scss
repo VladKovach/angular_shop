@@ -1,1 +1,100 @@
-/* You can add global styles to this file, and also import other style files */
+/* Resetting some basic styles */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Arial", sans-serif; /* You can replace with your preferred font */
+}
+
+/* HTML & Body */
+html,
+body {
+  height: 100%;
+  width: 100%;
+  font-size: 16px;
+  line-height: 1.5;
+  background-color: #f4f4f4; /* Light grey background */
+  color: #333; /* Dark gray text */
+}
+
+/* Setting body font */
+body {
+  font-family: "Roboto", sans-serif; /* Custom font for better readability */
+  background-color: #fff; /* White background for body */
+  color: #333; /* Dark text color */
+}
+main {
+  max-width: 1800px;
+  margin: 0 auto;
+}
+/* Ensure images and videos are not stretched */
+img,
+video {
+  max-width: 100%;
+  display: block;
+}
+
+/* Remove bullet points and list styling */
+ul,
+ol {
+  list-style: none;
+  padding-left: 0;
+}
+
+/* Remove link underlines and style links */
+a {
+  text-decoration: none;
+  color: inherit; /* Inherit the text color from the parent */
+}
+
+a:focus,
+a:hover {
+  outline: none;
+  text-decoration: underline; /* Underline links on hover/focus */
+}
+
+/* Resetting form inputs */
+input,
+textarea,
+button {
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+button {
+  background: none;
+  cursor: pointer;
+}
+
+/* Remove default styles for tables */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: left;
+}
+
+td,
+th {
+  border-bottom: 1px solid #ddd;
+}
+
+/* Make sure that the default padding doesn't cause layout issues */
+fieldset {
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+/* For smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
