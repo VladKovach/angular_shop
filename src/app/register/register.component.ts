@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
+import { FormComponent } from '../form/form.component';
 
 @Component({
   selector: 'app-register',
-  imports: [],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  styleUrls: ['./register.component.scss'],
+  imports: [FormComponent],
 })
 export class RegisterComponent {
-
+  handleRegister(data: any) {
+    console.log('register data:', data);
+    // Add register logic here
+  }
 }

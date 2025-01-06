@@ -15,12 +15,15 @@ export class HomeComponent implements OnInit {
   products: any[] = [];
   currentPage = 1;
   isLoading = false;
-  hasMoreProducts = true;
+  hasMoreProducts = true; // To check if there are more products to load
+  previousScrollPosition = 0; // Store the last scroll position
+  filteredProducts: any[] = [];
+
   ngOnInit() {
-    this.loadProducts();
+    this.loadProducts('initial');
   }
 
-  loadProducts() {
+  loadProducts(isOnInit?: string) {
     if (this.isLoading || !this.hasMoreProducts) return; // Prevent loading if already loading or no more products
 
     this.isLoading = true;
@@ -31,6 +34,7 @@ export class HomeComponent implements OnInit {
       .then((response) => {
         if (response.data.length > 0) {
           this.products.push(...response.data);
+          if (isOnInit) this.filteredProducts = [...this.products];
           this.currentPage++;
         } else {
           this.hasMoreProducts = false; // No more products to load
@@ -45,8 +49,15 @@ export class HomeComponent implements OnInit {
 
   @HostListener('window:scroll', [])
   onScroll() {
-    const scrollPosition = window.innerHeight + window.scrollY;
+    const currentScrollPosition = window.scrollY;
+    const scrollPosition = window.innerHeight + currentScrollPosition;
     const bottom = document.documentElement.offsetHeight;
+
+    // Prevent requests if scrolling upwards
+    if (currentScrollPosition < this.previousScrollPosition) {
+      this.previousScrollPosition = currentScrollPosition;
+      return;
+    }
 
     // Only trigger the load if the user scrolls to the bottom (with a small threshold)
     if (
@@ -56,5 +67,14 @@ export class HomeComponent implements OnInit {
     ) {
       this.loadProducts();
     }
+
+    // Update the previous scroll position
+    this.previousScrollPosition = currentScrollPosition;
+  }
+
+  onSearchTermChange(searchTerm: string) {
+    this.filteredProducts = this.products.filter((product) =>
+      product.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   }
 }

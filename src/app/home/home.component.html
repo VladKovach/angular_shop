@@ -1,7 +1,10 @@
 <div class="home_wrapper">
-  <app-search></app-search>
+  <app-search
+    [placeholder]="'Search for products...'"
+    (searchTerm)="onSearchTermChange($event)"
+  ></app-search>
   <div class="products-grid">
-    <div *ngFor="let product of products" class="product-card">
+    <div *ngFor="let product of filteredProducts" class="product-card">
       <img [src]="product.image" alt="Product image" class="product-image" />
       <h3>{{ product.title }}</h3>
       <p>{{ product.price | currency }}</p>
