@@ -3,12 +3,13 @@ import axios from 'axios';
 import { HostListener } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { CurrencyPipe } from '@angular/common';
+import { SearchComponent } from '../search/search.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  imports: [NgFor, NgIf, CurrencyPipe],
+  imports: [NgFor, NgIf, CurrencyPipe, SearchComponent],
 })
 export class HomeComponent implements OnInit {
   products: any[] = [];
