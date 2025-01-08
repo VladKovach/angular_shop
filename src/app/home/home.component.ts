@@ -18,14 +18,12 @@ export class HomeComponent implements OnInit {
   hasMoreProducts = true; // To check if there are more products to load
   previousScrollPosition = 0; // Store the last scroll position
   filteredProducts: any[] = [];
-
+  filterInputValue: string = '';
   ngOnInit() {
-    this.loadProducts('initial');
+    this.loadProducts();
   }
 
-  loadProducts(isOnInit?: string) {
-    if (this.isLoading || !this.hasMoreProducts) return; // Prevent loading if already loading or no more products
-
+  loadProducts() {
     this.isLoading = true;
     axios
       .get(
@@ -34,7 +32,6 @@ export class HomeComponent implements OnInit {
       .then((response) => {
         if (response.data.length > 0) {
           this.products.push(...response.data);
-          if (isOnInit) this.filteredProducts = [...this.products];
           this.currentPage++;
         } else {
           this.hasMoreProducts = false; // No more products to load
@@ -47,34 +44,31 @@ export class HomeComponent implements OnInit {
       });
   }
 
-  @HostListener('window:scroll', [])
-  onScroll() {
-    const currentScrollPosition = window.scrollY;
-    const scrollPosition = window.innerHeight + currentScrollPosition;
-    const bottom = document.documentElement.offsetHeight;
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll() {
+    if (this.isLoading || !this.hasMoreProducts) return; // Prevent loading if already loading or no more products
 
-    // Prevent requests if scrolling upwards
-    if (currentScrollPosition < this.previousScrollPosition) {
-      this.previousScrollPosition = currentScrollPosition;
-      return;
-    }
 
-    // Only trigger the load if the user scrolls to the bottom (with a small threshold)
-    if (
-      scrollPosition >= bottom - 100 &&
-      !this.isLoading &&
-      this.hasMoreProducts
-    ) {
+    let pos =
+      (document.documentElement.scrollTop || document.body.scrollTop) +
+      document.documentElement.offsetHeight;
+    let max = document.documentElement.scrollHeight;
+    // pos/max will give you the distance between scroll bottom and and bottom of screen in percentage.
+
+    if (pos >= max - 300) {
       this.loadProducts();
     }
-
-    // Update the previous scroll position
-    this.previousScrollPosition = currentScrollPosition;
   }
-
   onSearchTermChange(searchTerm: string) {
-    this.filteredProducts = this.products.filter((product) =>
-      product.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    this.filterInputValue = searchTerm.trim(); // Update the filter input value
+    if (this.filterInputValue) {
+      this.filteredProducts = this.products.filter((product) =>
+        product.title
+          .toLowerCase()
+          .includes(this.filterInputValue.toLowerCase())
+      );
+    } else {
+      this.filteredProducts = this.products; // Show all products if no filter
+    }
   }
 }

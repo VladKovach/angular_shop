@@ -3,13 +3,27 @@
     [placeholder]="'Search for products...'"
     (searchTerm)="onSearchTermChange($event)"
   ></app-search>
+
   <div class="products-grid">
-    <div *ngFor="let product of filteredProducts" class="product-card">
-      <img [src]="product.image" alt="Product image" class="product-image" />
-      <h3>{{ product.title }}</h3>
-      <p>{{ product.price | currency }}</p>
-    </div>
+    <ng-container *ngIf="filterInputValue; else allProducts">
+      <div *ngFor="let product of filteredProducts" class="product-card" >
+        <img [src]="product.image" alt="Product image" class="product-image" />
+        <h3>{{ product.title }}</h3>
+        <p>{{ product.price | currency }}</p>
+      </div>
+    </ng-container>
+
+    <ng-template #allProducts>
+      <div *ngFor="let product of products" class="product-card">
+        <img [src]="product.image" alt="Product image" class="product-image" />
+        <h3>{{ product.title }}</h3>
+        <p>{{ product.price | currency }}</p>
+      </div>
+    </ng-template>
   </div>
 
-  <div *ngIf="isLoading">Loading more products...</div>
+  <div *ngIf="isLoading" class="spinner-wrapper">
+    <div class="spinner"></div>
+    <p>Loading products...</p>
+  </div>
 </div>
