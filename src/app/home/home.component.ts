@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit {
   onWindowScroll() {
     if (this.isLoading || !this.hasMoreProducts) return; // Prevent loading if already loading or no more products
 
-
+    if (this.filterInputValue) return; // return if filltered items
     let pos =
       (document.documentElement.scrollTop || document.body.scrollTop) +
       document.documentElement.offsetHeight;
