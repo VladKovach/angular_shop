@@ -1,32 +1,17 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root', // Available application-wide
 })
 export class AuthService {
-  private apiUrl = 'https://fakestoreapi.com';
+  private apiUrl = 'http://localhost:3000'; // Replace with your backend URL
 
   constructor(private http: HttpClient) {}
 
-  register(user: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/users`, user);
-  }
+  login(email: string, password: string): Observable<any> {
 
-  login(credentials: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/auth/login`, credentials);
-  }
-
-  saveToken(token: string): void {
-    localStorage.setItem('authToken', token);
-  }
-
-  getToken(): string | null {
-    return localStorage.getItem('authToken');
-  }
-
-  isAuthenticated(): boolean {
-    return !!this.getToken();
+    return this.http.post(`${this.apiUrl}/login`, { email, password });
   }
 }

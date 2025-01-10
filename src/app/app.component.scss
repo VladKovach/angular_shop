@@ -1,4 +1,9 @@
 main {
   max-width: 1800px;
+  min-height: 100vh; /* Ensures main always covers at least the viewport height */
+  background-color: #f4f4f4; /* Match the page background color */
   margin: 0 auto;
+  padding-bottom: 20px; /* Optional padding */
+  display: flex; /* Optional: Adjust based on layout */
+  flex-direction: column; /* Ensures proper stacking */
 }
