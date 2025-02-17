@@ -62,12 +62,13 @@
       </button>
 
       <div class="toggle-link">
-        <button>
-          {{
-            isLogin
-              ? "Don’t have an account? Register"
-              : "Already have an account? Login"
-          }}
+        <button (click)="navigate()">
+          <ng-container *ngIf="isLogin">
+            Don’t have an account? <span class="highlight">Register</span>
+          </ng-container>
+          <ng-container *ngIf="!isLogin">
+            Already have an account? <span class="highlight">Login</span>
+          </ng-container>
         </button>
       </div>
     </form>

@@ -6,6 +6,7 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { NavigationService } from '../services/navigation.service';
 
 @Component({
   selector: 'app-form',
@@ -19,7 +20,7 @@ export class FormComponent {
 
   form: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private navService: NavigationService) {
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -37,7 +38,9 @@ export class FormComponent {
       );
     }
   }
-
+  navigate() {
+    this.isLogin ? this.navService.goToRegister() : this.navService.goToLogin();
+  }
   onSubmit(e: SubmitEvent) {
     e.preventDefault();
     if (this.form.valid) {
